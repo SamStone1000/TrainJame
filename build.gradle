@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+	//allows efficent rendering
 	implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
 	implementation "org.lwjgl:lwjgl"
@@ -21,4 +22,7 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
+	
+	//adds useful collections and other jdk-like things
+	implementation("com.google.guava:guava:31.1-jre")
 }
