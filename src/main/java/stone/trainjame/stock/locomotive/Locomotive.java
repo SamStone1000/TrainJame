@@ -16,7 +16,9 @@
  * along with TrainJame. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package stone.trainjame.stock;
+package stone.trainjame.stock.locomotive;
+
+import stone.trainjame.stock.RollingStock;
 
 /**
  * @author Stone
@@ -24,17 +26,17 @@ package stone.trainjame.stock;
  */
 public class Locomotive extends RollingStock {
 
+
 	/**
-	 * The locomotives power in Watts
+	 * The engine that is in the locomotive
 	 */
-	protected long power;
+	protected Engine engine;
 
 	/**
 	 * @return
 	 */
-	public long getPower() {
-		// TODO Auto-generated method stub
-		return power;
+	public Engine getEngine() {
+		return engine;
 	}
 
 }

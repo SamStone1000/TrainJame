@@ -73,8 +73,4 @@ public abstract class PhysicsHelper {
 	public static double rollingResistance(long mass) {
 		return rollingResistance(mass, STEEL_STEEL_ROLLING);
 	}
-
-	public static double tractiveEffort(long power, double throttle, double speed) {
-
-	}
 }

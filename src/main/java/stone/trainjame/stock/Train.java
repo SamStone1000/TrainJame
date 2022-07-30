@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import stone.trainjame.cargo.Cargo;
-import stone.trainjame.util.MutableLong;
+import stone.trainjame.stock.locomotive.Locomotive;
 
 /**
  * @author Stone
@@ -32,50 +32,31 @@ import stone.trainjame.util.MutableLong;
  */
 public class Train {
 
-	private Deque<RollingStockEntry> cars = new LinkedList<>();
+	private Deque<RollingStockEntry<RollingStock>> cars = new LinkedList<>();
+	private Deque<RollingStockEntry<Locomotive>> engines = new LinkedList<>();
+	private Deque<RollingStockEntry<CargoStock>> consists = new LinkedList<>();
 	/**
 	 * The total mass of the train in kilograms
 	 */
 	private long weight;
-	/**
-	 * The total power of the train in watts
-	 */
-	private long power;
-	private Map<Cargo, MutableLong> capacity = new HashMap<>();
+	private Map<Cargo, Container> capacity = new HashMap<>();
 
 	public Train() {
 		this.weight = 0;
-		this.power = 0;
-	}
-
-	private void handleCarStats(RollingStock car) {
-		weight += car.getWeight();
-	}
-
-	private void handleLocomotiveStats(Locomotive engine) {
-		power += engine.getPower();
-	}
-
-	private void handleCargoStats(CargoStock consist) {
-		capacity.computeIfAbsent(consist.getType(), (cargo) ->
-		{
-			return new MutableLong();
-		}).add(consist.getCapacity());
 	}
 
 	public void addCarFirst(RollingStock car) {
 		cars.peekFirst().addCarFirst(car);
-		handleCarStats(car);
 	}
 
 	public void addLocomotiveFirst(Locomotive engine) {
 		addCarFirst(engine);
-		handleLocomotiveStats(engine);
+		engines.peekFirst().addCarFirst(engine);
 	}
 
 	public void addCargoFirst(CargoStock consist) {
 		addCarFirst(consist);
-		handleCargoStats(consist);
+		consists.peekFirst().addCarFirst(consist);
 	}
 
 	public void addCarLast(RollingStock car) {
@@ -89,25 +70,72 @@ public class Train {
 		cars.removeLast();
 	}
 
-	private class RollingStockEntry {
+	private class RollingStockEntry<T> {
 
-		private RollingStock type;
+		private T type;
 		private long count;
 
-		public RollingStockEntry(RollingStock type) {
+		public RollingStockEntry(T type) {
 			this.type = type;
 			this.count = 1;
 		}
 
-		public void addCarFirst(RollingStock car) {
+		public void addCarFirst(T car) {
 			if (type.equals(car))
 			{
 				count++;
 			}
 			else
 			{
-				cars.addFirst(new RollingStockEntry(car));
+				cars.addFirst(new RollingStockEntry<T>(car));
 			}
+		}
+	}
+
+	private class Container {
+
+		/**
+		 * The current amount of cargo in this container, in units
+		 */
+		private double amount;
+		/**
+		 * The maximum amount of cargo in this container, in units
+		 */
+		private double capacity;
+
+		/**
+		 * @return the amount in units
+		 */
+		public double getAmount() {
+			return amount;
+		}
+
+		/**
+		 * @return the capacity in units
+		 */
+		public double getCapacity() {
+			return capacity;
+		}
+
+		/**
+		 * @return the fill as a percentage
+		 */
+		public double getFill() {
+			return amount / capacity;
+		}
+
+		/**
+		 * @param capacity The capacity to add to this container, in units
+		 */
+		public void addCapacity(double capacity) {
+			this.capacity += capacity;
+		}
+
+		/**
+		 * @param capacity The capacity to set this container to, in units
+		 */
+		public void setCapacity(double capacity) {
+			this.capacity = capacity;
 		}
 	}
 }
