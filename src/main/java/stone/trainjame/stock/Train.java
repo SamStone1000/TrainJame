@@ -25,6 +25,7 @@ import java.util.Map;
 
 import stone.trainjame.cargo.Cargo;
 import stone.trainjame.stock.locomotive.Locomotive;
+import stone.trainjame.util.CompressedDeque;
 
 /**
  * @author Stone
@@ -32,9 +33,9 @@ import stone.trainjame.stock.locomotive.Locomotive;
  */
 public class Train {
 
-	private Deque<RollingStockEntry<RollingStock>> cars = new LinkedList<>();
-	private Deque<RollingStockEntry<Locomotive>> engines = new LinkedList<>();
-	private Deque<RollingStockEntry<CargoStock>> consists = new LinkedList<>();
+	private Deque<RollingStock> cars = new CompressedDeque<>(new LinkedList<>());
+	private Deque<Locomotive> engines = new CompressedDeque<>(new LinkedList<>());
+	private Deque<CargoStock> consists = new CompressedDeque<>(new LinkedList<>());
 	/**
 	 * The total mass of the train in kilograms
 	 */
@@ -46,20 +47,21 @@ public class Train {
 	}
 
 	public void addCarFirst(RollingStock car) {
-		cars.peekFirst().addCarFirst(car);
+		cars.addFirst(car);
 	}
 
 	public void addLocomotiveFirst(Locomotive engine) {
 		addCarFirst(engine);
-		engines.peekFirst().addCarFirst(engine);
+		engines.addFirst(engine);
 	}
 
 	public void addCargoFirst(CargoStock consist) {
 		addCarFirst(consist);
-		consists.peekFirst().addCarFirst(consist);
+		consists.addFirst(consist);
 	}
 
 	public void addCarLast(RollingStock car) {
+		cars.addLast(car);
 	}
 
 	public void removeCarFirst() {
@@ -68,28 +70,6 @@ public class Train {
 
 	public void removeCarLast() {
 		cars.removeLast();
-	}
-
-	private class RollingStockEntry<T> {
-
-		private T type;
-		private long count;
-
-		public RollingStockEntry(T type) {
-			this.type = type;
-			this.count = 1;
-		}
-
-		public void addCarFirst(T car) {
-			if (type.equals(car))
-			{
-				count++;
-			}
-			else
-			{
-				cars.addFirst(new RollingStockEntry<T>(car));
-			}
-		}
 	}
 
 	private class Container {
