@@ -30,23 +30,23 @@ import stone.trainjame.util.Registry;
 public class Cargo {
 
 	/**
-	 * The density of this cargo in terms of grams per unit
+	 * The density of this cargo in terms of kilograms per unit
 	 */
-	private int density;
+	private double density;
 	private int hash;
 
-	private Cargo(int density) {
+	private Cargo(double density) {
 		this.density = density;
 	}
 
-	public static Cargo create(int density, Identifier id) {
+	public static Cargo create(double density, Identifier id) {
 		Cargo temp = new Cargo(density);
 		temp.setHash(id.hashCode());
 		Registry.CARGO.register(id, temp);
 		return temp;
 	}
 
-	public int getDensity() {
+	public double getDensity() {
 		return density;
 	}
 

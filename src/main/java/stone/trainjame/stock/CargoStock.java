@@ -29,18 +29,19 @@ public class CargoStock extends RollingStock {
 	 * The car's capacity in units. Units can be any real world unit that should be specified in the
 	 * actual cargo
 	 */
-	private int capacity;
+	private double capacity;
 	/**
 	 * The type of cargo this rollingstock can carry
 	 */
 	private Cargo type;
 
-	public CargoStock(int capacity, Cargo type) {
+	public CargoStock(double mass, int capacity, Cargo type) {
+		super(mass);
 		this.capacity = capacity;
 		this.type = type;
 	}
 
-	public int getCapacity() {
+	public double getCapacity() {
 		return capacity;
 	}
 

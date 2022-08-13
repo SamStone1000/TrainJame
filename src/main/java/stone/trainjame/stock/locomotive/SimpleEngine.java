@@ -33,6 +33,11 @@ public class SimpleEngine extends Engine {
 	 */
 	private double starting;
 
+	public SimpleEngine(double power, double efficency, double starting) {
+		this.power = power;
+		this.efficency = efficency;
+		this.starting = starting;
+	}
 	@Override
 	public double getTractiveEffort(double speed, double throttle) {
 		double theory = (efficency * power) / speed; // uses equation (NP)/V
@@ -45,7 +50,7 @@ public class SimpleEngine extends Engine {
 	}
 
 	@Override
-	public double getMaxtractiveEffort() {
+	public double getMaxTractiveEffort() {
 		return starting;
 	}
 

@@ -1,0 +1,92 @@
+% Created 2022-08-09 Tue 23:39
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Stone}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={Stone},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.1 (Org mode 9.5.2)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+Train Physics -\textbf{- mode: org -}-
+
+\section{Starting}
+\label{sec:orga95f3ab}
+\subsection{Maximum Load}
+\label{sec:org806b88b}
+\begin{itemize}
+\item The maximum force a locomotive can output is equal to the friction
+between the wheels and rail
+\begin{itemize}
+\item In other words the most force a locomotive can output (unless
+the engine can't produce more than this) is the locomotive's
+weight multiplied by the coeefficent of static friction of the
+wheels and rail (\textasciitilde{}.5 for steel-steel)
+\item The most force a locomotive can output while stationary is
+called \textbf{starting tractive effort}
+\item Thus if the train's static friction is greater then the starting
+tractive effort of all the locomotive's put together it cannot
+move, and trying to push the locomotives further will simply
+cause the wheels to spin
+\end{itemize}
+\end{itemize}
+\subsection{Accelerating}
+\label{sec:org8a3720a}
+\begin{itemize}
+\item The amount of power a locomotive can output is inversely
+proportional to the speed of the train
+\begin{itemize}
+\item This means as the train accelerates and picks up speed, it's
+rate of accleration drops as the force output by the engine
+drops
+\begin{itemize}
+\item The force for a desiel-electric motor can be approximated as
+\texttt{T=(Pn)/V}
+\begin{description}
+\item[{T}] tractive effort of locomotive in newtons
+\item[{P}] power of locomotive in watts
+\item[{n}] efficency of locomotive in converting power to force
+\item[{V}] speed of locomotive in m/s
+\end{description}
+\end{itemize}
+\item Eventually this means the train can't accelerate past the point
+where the engine's tractive effort equals the rolling resistance
+of the train + air resistance
+\end{itemize}
+\end{itemize}
+\subsubsection{Math}
+\label{sec:org756d1f8}
+
+\section{While Moving}
+\label{sec:org80380d1}
+\begin{itemize}
+\item Once a train reaches the equilibrium point where tractive effort is
+equal to resistances, the train will stop accelerating and stay at a
+constant speed
+\end{itemize}
+
+\begin{equation}
+\label{eq:force}
+F = m \cdot a
+\end{equation}
+
+Force is given by equation \ref{eq:force} above.
+\end{document}

@@ -19,7 +19,11 @@ package stone.trainjame.util;
 
 import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
 
 /**
  * @param <E>
@@ -31,6 +35,39 @@ public class CompressedDeque<E> implements Deque<E> {
 
 	public CompressedDeque(Deque<Entry<E>> delegate) {
 		this.delegate = delegate;
+	}
+
+	/**
+	 * Applys the given function to each entry's type and then multiplies the result
+	 * by the count of the entry. This assumes that the function used would not
+	 * change from each specific object held in this CompressedDeque
+	 * 
+	 * @param function A function which returns a number when applied to an object
+	 *                 held in this deque
+	 * @return A sum of each result from the function if it was applied to each
+	 *         object in this deque
+	 */
+	public double sum(ToDoubleFunction<E> function) {
+
+		double sum = 0;
+		for (Entry<E> entry : delegate)
+		{
+			double result = function.applyAsDouble(entry.getType());
+			sum += result * entry.getCount();
+		}
+		return sum;
+	}
+
+	public <K> Map<K, Double> sumByKey(Function<E, K> keyFunction, ToDoubleFunction<E> valueFunction) {
+		Map<K, Double> sums = new HashMap<>();
+		for (Entry<E> entry : delegate)
+		{
+			K key = keyFunction.apply(entry.getType());
+			double sum = sums.getOrDefault(key, 0d);
+			sum += valueFunction.applyAsDouble(entry.getType());
+			sums.put(key, sum);
+		}
+		return sums;
 	}
 
 	@Override
@@ -277,7 +314,7 @@ public class CompressedDeque<E> implements Deque<E> {
 		throw new UnsupportedOperationException("The attempted operation is unsupported");
 	}
 
-	private class Entry<T> {
+	protected class Entry<T> {
 		private T type;
 		private int count;
 

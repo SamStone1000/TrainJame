@@ -43,16 +43,12 @@ public abstract class PhysicsHelper {
 	 * @param coefficent
 	 * @return
 	 */
-	public static double maxStiction(double weight, double coefficient) {
-		return weight * coefficient;
+	public static double maxStiction(double mass, double g, double coefficient) {
+		return mass * g * coefficient;
 	}
 
-	public static double maxStiction(long mass, double coefficent) {
-		return maxStiction(g * mass, coefficent);
-	}
-
-	public static double maxStiction(long mass) {
-		return maxStiction(mass, STEEL_STEEL_STATIC);
+	public static double maxStiction(double mass) {
+		return maxStiction(mass, PhysicsHelper.g, STEEL_STEEL_STATIC);
 	}
 
 	/**
@@ -70,7 +66,8 @@ public abstract class PhysicsHelper {
 		return rollingResistance(g * mass, coefficient);
 	}
 
-	public static double rollingResistance(long mass) {
+	public static double rollingResistance(double mass) {
 		return rollingResistance(mass, STEEL_STEEL_ROLLING);
 	}
+
 }

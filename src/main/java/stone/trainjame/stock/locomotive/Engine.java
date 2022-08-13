@@ -28,9 +28,9 @@ package stone.trainjame.stock.locomotive;
  */
 public abstract class Engine {
 
-	protected long power;
+	protected double power;
 
-	public long getMaxPower() {
+	public double getMaxPower() {
 		return power;
 	}
 
@@ -58,5 +58,5 @@ public abstract class Engine {
 	 * 
 	 * @return the maximum tractive effort in newtons
 	 */
-	public abstract double getMaxtractiveEffort();
+	public abstract double getMaxTractiveEffort();
 }

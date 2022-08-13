@@ -32,6 +32,10 @@ public class Locomotive extends RollingStock {
 	 */
 	protected Engine engine;
 
+	public Locomotive(double mass, Engine engine) {
+		super(mass);
+		this.engine = engine;
+	}
 	/**
 	 * @return
 	 */

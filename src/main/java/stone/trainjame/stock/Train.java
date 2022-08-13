@@ -18,14 +18,12 @@
 
 package stone.trainjame.stock;
 
-import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
-import stone.trainjame.cargo.Cargo;
 import stone.trainjame.stock.locomotive.Locomotive;
 import stone.trainjame.util.CompressedDeque;
+import stone.trainjame.util.Containers;
+import stone.trainjame.util.PhysicsHelper;
 
 /**
  * @author Stone
@@ -33,17 +31,43 @@ import stone.trainjame.util.CompressedDeque;
  */
 public class Train {
 
-	private Deque<RollingStock> cars = new CompressedDeque<>(new LinkedList<>());
-	private Deque<Locomotive> engines = new CompressedDeque<>(new LinkedList<>());
-	private Deque<CargoStock> consists = new CompressedDeque<>(new LinkedList<>());
-	/**
-	 * The total mass of the train in kilograms
-	 */
-	private long weight;
-	private Map<Cargo, Container> capacity = new HashMap<>();
+	private CompressedDeque<RollingStock> cars;
+	private CompressedDeque<Locomotive> engines;
+	private CompressedDeque<CargoStock> consists;
+
+	private Containers capacity;
+
 
 	public Train() {
-		this.weight = 0;
+		this.cars = new CompressedDeque<>(new LinkedList<>());
+		this.engines = new CompressedDeque<>(new LinkedList<>());
+		this.consists = new CompressedDeque<>(new LinkedList<>());
+	}
+
+	public void calculate() {
+		double mass = cars.sum((car) ->
+		{
+			return car.getMass();
+		});
+		capacity = new Containers(consists.sumByKey((car) ->
+		{
+			return car.getType();
+		}, (car) ->
+		{
+			return car.getCapacity();
+		}));
+		double staticTractiveEffort = engines.sum((engine) ->
+		{
+			return Math.min(PhysicsHelper.maxStiction(engine.getMass()),
+					engine.getEngine().getStartingTractiveEffort());
+		});
+		double maxTractiveEffort = engines.sum((engine) ->
+		{
+			return Math.min(PhysicsHelper.maxStiction(engine.getMass()), engine.getEngine().getMaxTractiveEffort());
+		});
+		double power = engines.sum((engine) -> {
+			return engine.getEngine().getMaxPower();
+		});
 	}
 
 	public void addCarFirst(RollingStock car) {
@@ -72,50 +96,4 @@ public class Train {
 		cars.removeLast();
 	}
 
-	private class Container {
-
-		/**
-		 * The current amount of cargo in this container, in units
-		 */
-		private double amount;
-		/**
-		 * The maximum amount of cargo in this container, in units
-		 */
-		private double capacity;
-
-		/**
-		 * @return the amount in units
-		 */
-		public double getAmount() {
-			return amount;
-		}
-
-		/**
-		 * @return the capacity in units
-		 */
-		public double getCapacity() {
-			return capacity;
-		}
-
-		/**
-		 * @return the fill as a percentage
-		 */
-		public double getFill() {
-			return amount / capacity;
-		}
-
-		/**
-		 * @param capacity The capacity to add to this container, in units
-		 */
-		public void addCapacity(double capacity) {
-			this.capacity += capacity;
-		}
-
-		/**
-		 * @param capacity The capacity to set this container to, in units
-		 */
-		public void setCapacity(double capacity) {
-			this.capacity = capacity;
-		}
-	}
 }

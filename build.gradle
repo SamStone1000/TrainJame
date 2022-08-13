@@ -25,4 +25,7 @@ dependencies {
 	
 	//adds useful collections and other jdk-like things
 	implementation("com.google.guava:guava:31.1-jre")
+
+	//allows fast fixed point decimal arithematic for positions
+	implementation 'org.decimal4j:decimal4j:1.0.3'
 }

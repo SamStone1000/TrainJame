@@ -25,5 +25,5 @@ import stone.trainjame.util.Identifier;
  */
 public abstract class Cargoes {
 
-	public static final Cargo COAL = Cargo.create(1000, new Identifier("coal"));
+	public static final Cargo COAL = Cargo.create(1, new Identifier("coal"));
 }

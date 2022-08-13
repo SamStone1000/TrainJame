@@ -22,17 +22,27 @@ package stone.trainjame.stock;
  * @author Stone
  *
  */
-public abstract class RollingStock {
+public class RollingStock {
 
 	/**
 	 * The rolling stock's weight in kg
 	 */
-	protected int weight;
+	protected double mass;
+
+	public RollingStock() {
+	}
+	
+	/**
+	 * @param mass
+	 */
+	public RollingStock(double mass) {
+		this.mass = mass;
+	}
 
 	/**
-	 * @return
+	 * @return the mass of this rolling stock in kg
 	 */
-	public long getWeight() {
-		return weight;
+	public double getMass() {
+		return mass;
 	}
 }
